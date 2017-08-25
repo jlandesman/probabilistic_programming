@@ -1,0 +1,475 @@
+log_y <- log(input_data$y)
+stan_rdump(c("log_y", "b_theo", "a_theo", "log_capital", "log_labor", "log_energy", "country", "n_obs", "T", "n_countries"), file="/Users/Betancourt/Documents/Research/Code/stan-dev/cmdstan/econ/ignazio/2015-09/OECD.data.R")
+time <- input_data$time
+stan_rdump(c("log_y", "b_theo", "a_theo", "log_capital", "log_labor", "log_energy", "time", "country", "n_obs", "T", "n_countries"), file="/Users/Betancourt/Documents/Research/Code/stan-dev/cmdstan/econ/ignazio/2015-09/OECD.data.R")
+input_data$a
+input_data$b
+input_data <- read.csv("/Users/Betancourt/Documents/Research/Code/stan-dev/cmdstan/econ/ignazio/2015-09/OECD.clean.csv")
+log_y <- log(input_data$y)
+a_theo <- input_data$a_theo
+b_theo <- input_data$b_theo
+log_capital <- log(input_data$capital)
+log_labor <- log(input_data$labor)
+log_energy <- log(input_data$energy)
+time <- input_data$time
+country <- input_data$country
+n_obs <- 1148
+T <- 41
+n_countries <- 28
+stan_rdump(c("log_y", "a_theo", "b_theo", "log_capital", "log_labor", "log_energy", "time", "country", "n_obs", "T", "n_countries"), file="/Users/Betancourt/Documents/Research/Code/stan-dev/cmdstan/econ/ignazio/2015-09/OECD.data.R")
+library(rstan)
+data <- read_rdump('/Users/Betancourt/Documents/Research/Code/stan-dev/cmdstan/epi/TBI_testing_model/mouse_to_mouse/mouse_to_mouse.data.R')
+data
+hist(data$para_init_count_T)
+hist(data$para_init_count_C)
+hist(data$para_init_count_T)
+hist(data$para_init_count_C)
+hist(data$para_end_count_C)
+hist(data$para_end_count_T)
+hist(data$para_init_count_T)
+hist(data$para_init_count_C)
+hist(data$para_end_count_C)
+data$para_end_count_C
+data$para_init_count_C
+hist(data$ooc_count_C)
+hist(data$ooc_count_T)
+exp(-5)
+10000/100
+log(100)
+log(10)
+hist(data$ooc_count_T)
+hist(data$para_init_count_T)
+hist(data$ooc_count_T)
+hist(data$sporo_count_T)
+hist(data$para_init_count_T)
+hist(data$ooc_count_T)
+hist(data$para_init_count_T)
+dotR <- file.path(Sys.getenv("HOME"), ".R")#
+if (!file.exists(dotR)) dir.create(dotR)#
+M <- file.path(dotR, "Makevars")#
+if (!file.exists(M)) file.create(M)#
+cat("\nCXXFLAGS=-O3 -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs", #
+    file = M, sep = "\n", append = TRUE)
+cat("\nCC=clang", "CXX=clang++ -arch x86_64 -ftemplate-depth-256", #
+    file = M, sep = "\n", append = TRUE)
+Sys.setenv(MAKEFLAGS = "-j4")
+install.packages("rstan", dependencies = TRUE)
+library(rstan)
+install.packages("shinystan")
+devtools::install_github("rstudio/shinyapps")
+install.packages("devtools")
+devtools::install_github("rstudio/shinyapps")
+model_source <- 'data {#
+  int<lower=0> J; // number of schools #
+  real y[J]; // estimated treatment effects#
+  real<lower=0> sigma[J]; // s.e. of effect estimates #
+}#
+parameters {#
+  real mu; #
+  real<lower=0> tau;#
+  real eta[J];#
+}#
+transformed parameters {#
+  real theta[J];#
+  for (j in 1:J)#
+    theta[j] <- mu + tau * eta[j];#
+}#
+model {#
+  eta ~ normal(0, 1);#
+  y ~ normal(theta, sigma);#
+}'
+schools_dat <- list(J = 8, #
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),#
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+fit <- stan(model_source, data = schools_dat, #
+            iter = 1000, chains = 1)
+library(rstan)
+fit <- stan(model_source, data = schools_dat, #
+            iter = 1000, chains = 1)
+fit <- stan(model_code=model_source, data = schools_dat, #
+            iter = 1000, chains = 1)
+fit <- stan(model_code=model_source, data = schools_dat, #
+            iter = 1000, chains = 1, control=list(max_treedepth=1))
+library(rstan)
+library(shinystan)
+install(shinystan)
+install.packages("shinystan")
+model="data {#
+  int<lower=0> J; // number of schools #
+  real y[J]; // estimated treatment effects#
+  real<lower=0> sigma[J]; // s.e. of effect estimates #
+}#
+parameters {#
+  real mu; #
+  real<lower=0> tau;#
+  real eta[J];#
+}#
+transformed parameters {#
+  real theta[J];#
+  for (j in 1:J)#
+    theta[j] <- mu + tau * eta[j];#
+}#
+model {#
+  eta ~ normal(0, 1);#
+  y ~ normal(theta, sigma);#
+}"
+schools_dat <- list(J = 8, #
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),#
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+fit <- stan(model = model, data = schools_dat, #
+            iter = 1000, chains = 4)
+stan?
+?stan
+fit <- stan(model_code = model, data = schools_dat, #
+            iter = 1000, chains = 4)
+sso <- as.shinystan(fit)
+load(shinystan)
+library(shinystan)
+sso <- as.shinystan(fit)
+> launch_shinystan(sso)
+launch_shinystan(sso)
+rgamma(1,shape=20,scale=0.5)
+rgamma(1000,shape=20,scale=0.5)
+mean(rgamma(1000,shape=20,scale=0.5))
+variance(rgamma(1000,shape=20,scale=0.5))
+var(rgamma(1000,shape=20,scale=0.5))
+var(rgamma(1000,shape=20,scale=2))
+var(rgamma(1000,shape=20,scale=0.5))
+var(rgamma(1000,shape=10,scale=0.5))
+var(rgamma(1000,shape=20,scale=0.5))
+var(rgamma(1000,shape=40,scale=0.5))
+var(rgamma(10000,shape=40,scale=0.5))
+var(rgamma(10000,shape=10,scale=1))
+rgamma(10000,shape=10,scale=1) - rgamma(10000,shape=10,scale=1)
+hist(rgamma(10000,shape=10,scale=1) - rgamma(10000,shape=10,scale=1))
+hist(rgamma(10000,shape=5,scale=1) - rgamma(10000,shape=5,scale=1))
+d <- rgamma(10000,shape=5,scale=1) - rgamma(10000,shape=5,scale=1)
+mean(d)
+sd(d)
+skewness(d)
+library(moments)
+library(moment)
+var(d)
+quit
+rnorm(0, 1)
+rnorm(1, 0, 1)
+rnorm(9, 0, 1)
+x = c(0, 674119, 506533, 479327, 674059, 506477, 479274, 476282)
+x
+x_max=max(x)
+x_max
+exp(x)
+exp(x - x_max)
+x - x_max
+s = sum(exp(x - x_max))
+s
+install(rstan)
+Sys.setenv(MAKEFLAGS = "-j4")
+install.packages('rstan', repos = 'https://cloud.r-project.org/', dependencies = TRUE)
+fx <- inline::cxxfunction( signature(x = "integer", y = "numeric" ) , '#
+    return ScalarReal( INTEGER(x)[0] * REAL(y)[0] ) ;#
+' )#
+fx( 2L, 5 )
+library(rstan)
+model <- "data {#
+  int<lower=0> J; // number of schools #
+  real y[J]; // estimated treatment effects#
+  real<lower=0> sigma[J]; // s.e. of effect estimates #
+}#
+parameters {#
+  real mu; #
+  real<lower=0> tau;#
+  real eta[J];#
+}#
+transformed parameters {#
+  real theta[J];#
+  for (j in 1:J)#
+    theta[j] = mu + tau * eta[j];#
+}#
+model {#
+  target += normal_lpdf(eta | 0, 1);#
+  target += normal_lpdf(y | theta, sigma);#
+}"
+schools_dat <- list(J = 8, #
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),#
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))#
+#
+fit <- stan(model=model, data = schools_dat, #
+            iter = 1000, chains = 4)
+?stan
+schools_dat <- list(J = 8, #
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),#
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))#
+#
+fit <- stan(model=model_code, data = schools_dat, #
+            iter = 1000, chains = 4)
+schools_dat <- list(J = 8, #
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),#
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))#
+#
+fit <- stan(model_code=model, data = schools_dat, #
+            iter = 1000, chains = 1)
+library(dplyr)#
+library(ggplot2)#
+library(broom)#
+library(rstan)#
+library(readstata13)#
+library(reshape2)#
+library(WDI)
+install.packages('dplyr')
+install.packages('broom')
+library(readstata13)
+install.packages('readstata13')
+library(reshape2)
+library(WDI)
+install.packages('WDI')
+N <- 1000#
+mu <- c(-0.75, 0.75);#
+sigma <- c(1, 1);#
+lambda <- 0.4#
+z <- rbinom(N, 1, lambda) + 1;#
+y <- rnorm(N, mu[z], sigma[z]);
+hist(y)
+ls
+install.packages('knitr', dependencies = TRUE)
+library('knitr')
+install.packages('rmarkdown', dependencies = TRUE)
+library(rstan)
+?stanfit
+alpha <- -1.25#
+beta <- 0.75#
+sigma <- 1#
+#
+x <- runif(1, -1, 1)#
+y <- rnorm(1, beta * x + alpha, sigma)
+y
+x
+devtools::session_info()
+library(devtools)
+library('devtools')
+install.packages('devtools')
+devtools::session_info()
+?devtools::session_info
+?devtools::session_info('rstan')
+?devtools::session_info("rstan")
+library(rstan)
+?devtools::session_info("rstan")
+devtools::session_info("rstan")
+file.path(Sys.getenv("HOME"), ".R/Makevars")
+cat(file.path(Sys.getenv("HOME"), ".R/Makevars"))
+file.path(Sys.getenv("HOME"), ".R/Makevars")
+writeLines(readLines(file.path(Sys.getenv("HOME"), ".R/Makevars")))
+library(rstan)
+?read_stan_csv
+c_dark <- c("#8F2727")
+c_dark
+rgb(c_dark)
+col2rgb(c_dark)
+rgb(col2rgb(c_dark), 0.5)
+adjustcolor(c_dark, alpha.f = 0.5)
+adjustcolor(c_dark, alpha.f = 0.25)
+adjustcolor(c_dark, alpha.f = 0.75)
+rmultinom(5, 2, c(0.4, 0.6))
+rmultinom(5, 1, c(0.4, 0.6))
+rmultinom(5, 1, c(0.4, 0.6)) + 1
+rbinom(5, 1, 0.4) + 1
+0.45 + 5 * 0.35 - 4 * 0.2
+install.packages("maptools")
+install.packages("rgeos")
+install.packages("spdep")
+set.seed(689934)#
+#
+N <- 5000#
+x <- rnorm(N, 5, 2)#
+X = data.frame(x, x * x)
+X[1,]
+X[,1]
+plot(X[,1], X[,2])
+dim(X)
+N <- 5000#
+x <- rnorm(N, 5, 2)#
+X = data.frame(x, x * x)'#
+#
+M <- 2#
+beta = c(2.5, -1)#
+alpha <- -0.275#
+sigma <- 0.8
+N <- 5000#
+x <- rnorm(N, 5, 2)#
+X = transpose(data.frame(x, x * x))
+X = data.frame(x, x * x)'
+X = t(data.frame(x, x * x))
+dim(X)
+t(X) * beta
+t(X) *. beta
+t(X) %*% beta
+matrix(x, x * x)
+dim(matrix(x, x * x))
+dim(matrix(data.frame(x, x * x)))
+dim(data.frame(x, x * x))
+matrix(data.frame(x, x * x))
+data.matrix(x, x*x)
+dim(data.matrix(x, x*x))
+dim(data.matrix(data.frame((x, x*x)))
+dim(data.matrix(data.frame(x, x*x)))
+X = t(data.matrix(data.frame(x, x * x))))
+X = t(data.matrix(data.frame(x, x * x)))
+t(X) %*% beta
+beta = matrix(c(2.5, -1), nrow=M, ncol=1)
+beta = matrix(c(2.5, -1), nrow=2, ncol=1)
+t(X) %*% beta
+rnorm(1, t(X) %*% beta + alpha, sigma)
+rnorm(1, t(X) %*% beta + 0.5, sigma)
+dim(t(X) %*% beta)
+rep_vector(sigma, 5000)
+rnorm(5000, t(X) %*% beta + 0.5, sigma)
+N <- 5000#
+x <- rnorm(N, 5, 2)#
+X = t(data.matrix(data.frame(x, x * x)))#
+#
+M <- 2#
+beta = matrix(c(2.5, -1), nrow=M, ncol=1)#
+alpha <- -0.275#
+sigma <- 0.8
+mu <- t(X) %*% beta + alpha#
+y = sapply(1:N, function(n) rnorm(1, mu[n], sigma))
+dim(y)
+y
+dim(y)
+length(y)
+qr_decomp = qr(t(X)) # defaults to thin QR decomposition
+Q = qr.Q(qr_decomp)#
+R = qr.R(qr_decomp)
+stan_rdump(c("N", "M", "y", Q", "R"), file="qr_regression.data.R")
+plot(X[,1], X[,2])
+plot(X[1,], X[2,])
+Q
+Q[1,]
+Q[,1]
+mean(Q[,1])
+sd(Q[,1])
+mean(Q[,2])
+sd(Q[,2])
+beta
+beta[1,]
+beta[1,1]
+beta[1,2]
+beta[2,1]
+library(rstan)
+setwd('/Users/Betancourt/Documents/Research/Presentations/2017.08.23 Lander Course/exercises/tuesday/4 - grouped_logistic_regression')#
+#
+#############################################################
+# Initial setup#
+#############################################################
+#
+library(rstan)#
+rstan_options(auto_write = TRUE)#
+options(mc.cores = parallel::detectCores())#
+source('stan_utility.R')
+fit <- stan(file='generate_data.stan', iter=1,#
+            chains=1, seed=194838, algorithm="Fixed_param")#
+#
+N <- 500#
+M <- 5#
+X <- extract(fit)$X[1,,]#
+y <- extract(fit)$y[1,]#
+N_hand <- 2#
+hand <- extract(fit)$handedness[1,]#
+stan_rdump(c("N", "M", "X", "y", "N_hand", "hand"), file="grouped_logistic_regression.data.R")
+input_data <- read_rdump('grouped_logistic_regression.data.R')#
+fit <- stan(file='logistic_regression.stan', data=input_data, seed=4938483)#
+#
+# Check diagnostics#
+print(fit)#
+check_treedepth(fit)#
+check_energy(fit)#
+check_div(fit)
+params = extract(fit)#
+#
+# Aggregate fit looks okay, but...#
+hist(params$p_hat_ppc, main="", xlab="p_ppc")#
+abline(v=sum(input_data$y) / input_data$N, col=2, lty=1)
+# Individual groups are very different from aggregrate response#
+hist(params$p_hat_ppc, main="", xlab="p_ppc", breaks=0.01*(0:100)+0.0)#
+abline(v=sum(input_data$y * (input_data$h == 1)) / sum(input_data$h == 1), col=2, lty=1)#
+abline(v=sum(input_data$y * (input_data$h == 2)) / sum(input_data$h == 2), col=2, lty=1)
+fit <- stan(file='grouped_logistic_regression.stan', data=input_data, seed=4938483)
+fit <- stan(file='grouped_logistic_regression.stan', data=input_data, seed=4938483)
+print(fit)#
+check_treedepth(fit)#
+check_energy(fit)#
+check_div(fit)#
+#
+params = extract(fit)
+par(mfrow=c(2, 4))#
+#
+hist(params$beta[,1], main="", xlab="beta[1]")#
+abline(v=2.5,col=2,lty=1)#
+#
+hist(params$beta[,2], main="", xlab="beta[2]")#
+abline(v=-1.5,col=2,lty=1)#
+#
+hist(params$beta[,3], main="", xlab="beta[3]")#
+abline(v=1,col=2,lty=1)#
+#
+hist(params$beta[,4], main="", xlab="beta[3]")#
+abline(v=-0.5,col=2,lty=1)#
+#
+hist(params$beta[,5], main="", xlab="beta[3]")#
+abline(v=-3,col=2,lty=1)#
+#
+hist(params$alpha[,1], main="", xlab="alpha[1]")#
+abline(v=1,col=2,lty=1)#
+#
+hist(params$alpha[,2], main="", xlab="alpha[2]")#
+abline(v=-1,col=2,lty=1)
+hist(params$p_hat_ppc, main="", xlab="p_ppc")#
+abline(v=sum(input_data$y) / input_data$N, col=2, lty=1)
+params$p_hat_ppc
+fit <- stan(file='grouped_logistic_regression.stan', data=input_data, seed=4938483)
+fit <- stan(file='grouped_logistic_regression.stan', data=input_data, seed=4938483)
+print(fit)#
+check_treedepth(fit)#
+check_energy(fit)#
+check_div(fit)#
+#
+params = extract(fit)
+par(mfrow=c(2, 4))#
+#
+hist(params$beta[,1], main="", xlab="beta[1]")#
+abline(v=2.5,col=2,lty=1)#
+#
+hist(params$beta[,2], main="", xlab="beta[2]")#
+abline(v=-1.5,col=2,lty=1)#
+#
+hist(params$beta[,3], main="", xlab="beta[3]")#
+abline(v=1,col=2,lty=1)#
+#
+hist(params$beta[,4], main="", xlab="beta[3]")#
+abline(v=-0.5,col=2,lty=1)#
+#
+hist(params$beta[,5], main="", xlab="beta[3]")#
+abline(v=-3,col=2,lty=1)#
+#
+hist(params$alpha[,1], main="", xlab="alpha[1]")#
+abline(v=1,col=2,lty=1)#
+#
+hist(params$alpha[,2], main="", xlab="alpha[2]")#
+abline(v=-1,col=2,lty=1)
+hist(params$p_hat_ppc, main="", xlab="p_ppc")#
+abline(v=sum(input_data$y) / input_data$N, col=2, lty=1)
+p_left <- hist(params$p_hat_left_ppc, breaks=0.01*(0:100)+0.0)#
+p_left$counts = p_left$counts / sum(p_left$counts)#
+#
+p_right <- hist(params$p_hat_right_ppc, breaks=0.01*(0:100)+0.0)#
+p_right$counts = p_right$counts / sum(p_right$counts)
+p_left <- hist(params$p_hat_left_ppc, breaks=0.01*(0:100)+0.0)#
+p_left$counts = p_left$counts / sum(p_left$counts)#
+#
+p_right <- hist(params$p_hat_right_ppc, breaks=0.01*(0:100)+0.0)#
+p_right$counts = p_right$counts / sum(p_right$counts)#
+#
+plot(p_left, main="", xlab="p_hat")#
+plot(p_right, add=T)#
+abline(v=sum(input_data$y * (input_data$h == 1)) / sum(input_data$h == 1), col=2, lty=1)#
+abline(v=sum(input_data$y * (input_data$h == 2)) / sum(input_data$h == 2), col=2, lty=1)

@@ -1,0 +1,74 @@
+############################################################
+# Initial setup
+############################################################
+
+library(rstan)
+library(bayesplot)
+stopifnot(packageVersion("bayesplot") < "1.3.0")
+# Run install.packages("bayesplot") if your version is < 1.3.0
+
+
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+source('C:/Users/jlandesman/Documents/Probabilistic_Programming/data/stan_utility.R')
+
+############################################################
+# Fit initial Stan program
+############################################################
+library(dplyr)
+library(tidyr)
+set.seed(100)
+
+input_data <- read_rdump("logistic_regression.data.R")
+
+# data <-tbl_df(t(as.matrix(input_data$X)))
+# data<- data %>% mutate(y = t(input_data$y))
+# train <- sample_frac(data, size = 0.5)
+# test <- setdiff(data, train)
+# 
+# train_data <- list(x=t((train[,1:4])), y=list(train$y), M=5, n=nrow(train))
+# test_data <- list(x=as.matrix(test[,1:4]), y=list(test$y), M=5, n=nrow(test))
+
+input_data$N_in<-250
+input_data$N_out<-250
+input_data$X_in<-input_data$X[,1:250]
+input_data$X_out<-input_data$X[,251:500]
+input_data$y_in<-input_data$y[1:250]
+input_data$y_out<-input_data$y[251:500]
+
+
+names(train) <-  c("x1","x2", "x3","x4","x5", "y")
+names(test)  <-  c("x1","x2", "x3","x4","x5", "y")
+
+fit   <- stan(file='logistic_regression1.stan', data=input_data, seed=4938483)
+fit_1 <- stan(file='logistic_regression1.stan', data=train_data, seed=4938438)
+fit_2 <- stan(file='logistic_regression1.stan', data=input_data, seed=4938483)
+
+# Check diagnostics
+print(fit)
+
+mcmc_recover_hist(
+  as.matrix(fit, pars = c("sigma", "alpha", "beta")),
+  true = c(1, 10, 5, -3, 2),
+  facet_args = list(ncol = 2)
+)
+
+params = extract(fit_2)
+
+par(mfrow = c(1,1))
+hist(params$p_hat_ppc, breaks = 100)
+abline(v=mean(input_data$y), col='red')
+
+library(ggplot2)
+library(tidyr)
+
+p_hat<-
+
+ggplot(as.data.frame(params), aes(x=p_hat_ppc_in)) + 
+  geom_density(aes(alpha=0.5), fill="light blue") + 
+  geom_vline(xintercept = mean(input_data$y_in), col='red')
+
+mcmc_recover_hist(
+  params$p_hat_ppc, 
+  true = mean(input_data$y)
+  )
