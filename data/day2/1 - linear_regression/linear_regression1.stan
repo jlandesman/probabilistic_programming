@@ -18,7 +18,6 @@ model{
   
 //  for (m in 1:M) 
   beta ~ normal(0, 10);
-  
   alpha ~ normal(0, 10);
   sigma ~ normal(0,5);
   
